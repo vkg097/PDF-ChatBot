@@ -1,11 +1,10 @@
-streamlit>=1.35.0
-langchain-groq>=0.1.5
-langchain-ollama>=0.1.1
-langchain-community>=0.2.0
-langchain-text-splitters>=0.2.0
-langchain-huggingface>=0.0.3
-langchain-core>=0.2.0
-faiss-cpu>=1.8.0
-pypdf>=4.2.0
-sentence-transformers>=2.7.0
-python-dotenv>=1.0.1
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+torchaudio
+langchain
+langchain-community
+langchain-openai
+faiss-cpu
+streamlit
+pypdf

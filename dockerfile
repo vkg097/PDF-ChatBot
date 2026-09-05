@@ -1,23 +1,24 @@
-FROM python:3.11-slim
+# Enable BuildKit optimization
+FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install system dependencies needed for PyPDF / FAISS
-RUN apt-get update && apt-get install -y \
+# Prevent Python from writing bytecode and buffer issues
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Install minimal OS dependencies and clean cache immediately
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    curl \
-    && rm -rf /var/lib/apt/get/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
+
+# Install dependencies without caching downloaded wheels locally
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Expose Streamlit's default port
 EXPOSE 8501
 
-# Streamlit config settings for container environment
-ENV STREAMLIT_SERVER_PORT=8501
-ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
-
-CMD ["streamlit", "run", "nain1.py"]
+CMD ["streamlit", "run", "main1.py", "--server.port=8501", "--server.address=0.0.0.0"]
